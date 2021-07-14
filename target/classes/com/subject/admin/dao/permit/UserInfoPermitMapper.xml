@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.subject.admin.dao.permit.UserInfoPermitMapper">
+    <select id="queryUserPermits" parameterType="java.lang.String" resultType="com.subject.admin.dto.vo.user.UserInfoRoleMenuVO">
+        SELECT
+          a.id as user_id,
+          a.username,
+          a.`status`,
+          a.salt,
+          a.email,
+          a.mobile,
+          c.id as role_id,
+          c.role_name,
+          c.remark,
+          e.name,
+          e.url,
+          e.type
+        FROM
+            sys_user a,
+            sys_user_role b,
+            sys_role c,
+            sys_role_menu d,
+            sys_menu e
+        WHERE 1 = 1
+        AND a.id = #{id}
+        AND	a.id = b.user_id
+        AND c.id = b.role_id
+        AND d.role_id = c.id
+        AND e.id = d.menu_id
+    </select>
+    <!--查询菜单权限-->
+    <select id="queryUserPermitsByUserId" parameterType="java.lang.String" resultType="com.subject.admin.dto.user.PermitDTO">
+        SELECT
+          e.*
+        FROM
+            sys_user a,
+            sys_user_role b,
+            sys_role c,
+            sys_role_menu d,
+            sys_menu e
+        WHERE 1 = 1
+        AND a.id = #{id}
+        AND	a.id = b.user_id
+        AND c.id = b.role_id
+        AND d.role_id = c.id
+        AND e.id = d.menu_id
+    </select>
+</mapper>
